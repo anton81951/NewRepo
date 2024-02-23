@@ -4,17 +4,11 @@
     <title>My HTML-page</title>
     <script>
         'use strict';
-        <!--Твій JavaScript-код тут-->
-        console.log("JavaScript is awesome!");
-        console.log(10);
-        let username = "Mango";
-        console.log(username);
+        function calculateTotalPrice (orderedQuantity, pricePerItem) {
+            return orderedQuantity*pricePerItem;
+        }
 
-        username = "Poly";
-        console.log(username);
-
-        const quantity = 17;
-        console.log(typeof quantity);
+        calculateTotalPrice(5, 100);
     </script>
 </head>
 <body>
