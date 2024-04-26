@@ -1,19 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Keyboard events</title>
-    <link rel="stylesheet" href="./css/styles.css" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volyn Region Map with Timeline</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
     <style>
-      .output {
-        font-size: 24px;
-      }
+        svg {
+            width: 100%;
+            height: 100%;
+        }
     </style>
-  </head>
-  <body>
-    
-    <script src="./test.js"></script>
-  </body>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script>
+        const width = 800;
+        const height = 600;
+
+        // Create SVG element
+        const svg = d3.select("#map")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        // Projection for Volyn region
+        const projection = d3.geoMercator()
+            .center([24.8, 50.75]) // Centered approximately on Volyn region
+            .scale(8000)
+            .translate([width / 2, height / 2]);
+
+        const path = d3.geoPath().projection(projection);
+
+        // Load GeoJSON data
+        d3.json("volyn.geojson").then(function(geojson) {
+            // Draw map
+            svg.selectAll("path")
+                .data(geojson.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .style("fill", "lightblue")
+                .style("stroke", "black")
+                .style("stroke-width", 0.5);
+        });
+
+        // Add timeline
+        const years = [2021, 2022, 2023];
+        const timelineWidth = 600;
+        const timelineHeight = 50;
+
+        const timelineScale = d3.scaleBand()
+            .domain(years)
+            .range([0, timelineWidth]);
+
+        const timeline = svg.append("g")
+            .attr("transform", `translate(${width/2 - timelineWidth/2}, ${height - timelineHeight})`);
+
+        timeline.selectAll("rect")
+            .data(years)
+            .enter()
+            .append("rect")
+            .attr("x", d => timelineScale(d))
+            .attr("y", 0)
+            .attr("width", timelineScale.bandwidth())
+            .attr("height", timelineHeight)
+            .attr("fill", "lightgray")
+            .attr("stroke", "black")
+            .attr("stroke-width", 1);
+
+        timeline.selectAll("text")
+            .data(years)
+            .enter()
+            .append("text")
+            .attr("x", d => timelineScale(d) + timelineScale.bandwidth() / 2)
+            .attr("y", timelineHeight / 2)
+            .attr("dy", "0.35em")
+            .text(d => d)
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "middle")
+            .attr("fill", "black");
+    </script>
+</body>
 </html>

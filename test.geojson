@@ -1,0 +1,43 @@
+{
+    "map": {
+      "title": "Example Map with Timeline",
+      "description": "This is a sample map with a timeline.",
+      "center": {"lat": 40.7128, "lng": -74.0060}, // Coordinates for New York City
+      "zoom": 10,
+      "markers": [
+        {
+          "title": "Event 1",
+          "description": "Description of event 1",
+          "location": {"lat": 40.7128, "lng": -74.0060}, // Coordinates for New York City
+          "date": "2024-04-10"
+        },
+        {
+          "title": "Event 2",
+          "description": "Description of event 2",
+          "location": {"lat": 34.0522, "lng": -118.2437}, // Coordinates for Los Angeles
+          "date": "2024-04-15"
+        }
+      ]
+    },
+    "timeline": [
+      {
+        "date": "2024-04-10",
+        "events": [
+          {
+            "title": "Event 1",
+            "description": "Description of event 1"
+          }
+        ]
+      },
+      {
+        "date": "2024-04-15",
+        "events": [
+          {
+            "title": "Event 2",
+            "description": "Description of event 2"
+          }
+        ]
+      }
+    ]
+  }
+  
